@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Briefly.ai </title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script>
+        function showLoading() {
+            document.getElementById("loading").style.display = "flex";
+        }
+    </script>
+</head>
+<body>
+    <header>
+        <h1>Briefly.ai</h1>
+        <p>AI-powered news summarizer and sentiment analysis tool</p>
+    </header>
+     
+    <main>
+        <div class="container">
+            <h2>Analyze Your Article</h2>
+            <form method="POST" onsubmit="showLoading()">
+                <label for="url">Enter Article URL:</label>
+                <input type="url" id="url" name="url" required placeholder="Paste article URL here">
+                
+                <label for="language">Select Language:</label>
+                <select id="language" name="language">
+                    <option value="en">English</option>
+                    <option value="hi">Hindi</option>
+                    <option value="kn">Kannada</option>
+                    <option value="mr">Marathi</option>
+                </select>
+                
+                <button type="submit">Summarize</button>
+            </form>
+            <div id="loading" style="display: none;">
+                <p>🔄 Analyzing... Please wait.</p>
+            </div>
+        </div>
+
+        {% if summary == "The article could not be scraped. Try a different source." %}
+        <div class="error-message">
+            <p>❌ {{ summary }}</p>
+        </div>
+        {% endif %}
+
+        {% if title %}
+        <div class="results">
+            <h3>📄 Title:</h3>
+            <p>{{ title }}</p>
+    
+            {% if summary and summary != "The article could not be scraped. Try a different source." %}
+            <h3>📝 Summary:</h3>
+            <p>{{ summary }}</p>
+            {% endif %}
+
+            {% if sentiment %}
+            <h3>📊 Sentiment Analysis:</h3>
+            <p>
+                Sentiment: 
+                {% if sentiment == "Positive" %}
+                😊 Positive
+                {% elif sentiment == "Negative" %}
+                😞 Negative
+                {% else %}
+                😐 Neutral
+                {% endif %}
+            </p>
+            <p>Score: {{ score }}</p>
+            <p><small>Compound range: -1 to -0.1 (Negative), -0.1 to 0.1 (Neutral), 0.1 to 1 (Positive)</small></p>
+            {% endif %}
+        </div>
+        {% endif %}
+    </main>
+    <footer>
+        <p>&copy; 2024 Briefly.ai. All rights reserved.</p>
+    </footer>
+</body>
+</html>
