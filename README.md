@@ -3,5 +3,7 @@ Takes a news article url from the user and summarizes the article with multiple 
 
 # Steps
 Take URL as input.
+<br>
 Select Language.
+<br>
 Output as a summarized article and the sentiment associated with it.
